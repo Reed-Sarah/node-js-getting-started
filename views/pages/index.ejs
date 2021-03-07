@@ -7,20 +7,54 @@
 <body>
 
   <%- include ("../partials/nav.ejs") %>
-
+<main>
 <h1>Postal Rate Calculator</h1>
 <form method="GET" action="/rate">
   <div class="form-group">
-  <label>Weight:</label><br>
-  <input type="text" name="weight"><br>
+  <label>Weight (oz.):</label><br>
+  <input required  type="text" name="weight"><br>
   <label>Type of Mail</label><br>
-  <input type='radio'  name="type" value="stampedLetter">Stamped Letter<br>
-  <input type='radio'  name="type" value="meteredLetter">Metered Letter<br>
-  <input type='radio'  name="type" value="largeEnvelope">Large Envelope<br>
-  <input id="package" type='radio'  name="type" value="packageService">First-Class Package Service<br>
+  <input class="non-package" type='radio'  name="type" value="stampedLetter">Stamped Letter (0-3.5oz.)<br>
+  <input class="non-package" type='radio'  name="type" value="meteredLetter">Metered Letter (0-3.5oz.)<br>
+  <input class="non-package" type='radio'  name="type" value="largeEnvelope">Large Envelope (0-13oz.)<br>
+  <input id="package" type='radio'  name="type" value="packageService">First-Class Package Service (0-13oz.)<br>
+  <div id="additionalOptions">
+    <label>Distance to Destination</label>
+    <select name="zone" >
+      <option value="">Distance to Destination</option>
+      <option value="zone1">less than 150 miles</option>
+      <option value="zone3">151-300 miles</option>
+      <option value="zone4">301-600 miles</option>
+      <option value="zone5">601-1000 miles</option>
+      <option value="zone6">1001-1400 miles</option>
+      <option value="zone7">1401-1800 miles</option>
+      <option value="zone8">1801+ miles</option>
+      <option value="zone9">Freely Associated States</option>
+    </select><br>
+   </div> 
   <button type='submit'>Find Rate</button>
 </form>
 </div>
-<script src="././main.js"></script>
+</main>
+<script>
+  let package = document.getElementById("package");
+package.addEventListener("change", addOptions);
+
+let nonPackage = document.querySelectorAll('.non-package')
+nonPackage.forEach(element => {
+  element.addEventListener("change", removeOptions);
+});
+
+
+function addOptions(){
+  let x = document.getElementById("additionalOptions");
+    x.style.display = "block";
+}
+
+function removeOptions(){
+  let x = document.getElementById("additionalOptions");
+    x.style.display = "none";
+}
+</script>
 </body>
 </html>
